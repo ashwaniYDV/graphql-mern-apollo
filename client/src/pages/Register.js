@@ -15,7 +15,7 @@ function Register(props) {
     email: '',
     password: '',
     confirmPassword: '',
-    gender: 'male'
+    gender: 0
   });
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
@@ -39,9 +39,9 @@ function Register(props) {
   }
 
   const options = [
-    { key: 'm', text: 'Male', value: 'male' },
-    { key: 'f', text: 'Female', value: 'female' },
-    { key: 'o', text: 'Other', value: 'other' },
+    { key: 'm', text: 'Male', value: 0 },
+    { key: 'f', text: 'Female', value: 1 },
+    { key: 'o', text: 'Other', value: 2 },
   ]
 
   return (
@@ -116,7 +116,7 @@ const REGISTER_USER = gql`
     $email: String!
     $password: String!
     $confirmPassword: String!
-    $gender: String!
+    $gender: Int!
   ) {
     register(
       registerInput: {
@@ -132,6 +132,7 @@ const REGISTER_USER = gql`
       username
       createdAt
       token
+      gender
     }
   }
 `;

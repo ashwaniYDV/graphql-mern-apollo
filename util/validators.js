@@ -22,8 +22,8 @@ module.exports.validateRegisterInput = (
   } else if (password !== confirmPassword) {
     errors.confirmPassword = 'Passwords must match';
   }
-  if (gender.trim() === '') {
-    errors.gender = 'Gender must not be empty';
+  if (gender < 0 || gender > 2) {
+    errors.gender = 'Gender is invalid';
   }
 
   return {

@@ -12,6 +12,14 @@ function PostCard({
   post: { body, createdAt, id, username, likeCount, commentCount, likes }
 }) {
   const { user } = useContext(AuthContext);
+  // console.log(user);
+  // if (user.gender == 0) {
+  //   user.img = "https://semantic-ui.com/images/avatar2/small/matthew.png";
+  // } else if (user.gender === 1) {
+  //   user.img = "https://semantic-ui.com/images/avatar2/small/kristy.png";
+  // } else {
+  //   user.img = "https://semantic-ui.com/images/avatar2/small/elyse.png";
+  // }
 
   return (
     <Card fluid>
@@ -19,8 +27,7 @@ function PostCard({
         <Image
           floated="right"
           size="mini"
-          src="https://semantic-ui.com/images/avatar2/small/matthew.png"
-          // src="https://semantic-ui.com/images/avatar2/small/kristy.png"
+          src="https://semantic-ui.com/images/avatar2/small/elyse.png"
         />
         <Card.Header>{username}</Card.Header>
         <Card.Meta as={Link} to={`/posts/${id}`}>

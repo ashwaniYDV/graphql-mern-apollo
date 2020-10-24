@@ -68,7 +68,7 @@ function SinglePost(props) {
         <Grid.Row>
           <Grid.Column width={2}>
             <Image
-              src="https://semantic-ui.com/images/avatar2/small/matthew.png"
+              src="https://semantic-ui.com/images/avatar2/small/elyse.png"
               size="small"
               float="right"
             />
