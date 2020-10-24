@@ -3,8 +3,8 @@ import { useState } from 'react';
 export const useForm = (callback, initialState = {}) => {
   const [values, setValues] = useState(initialState);
 
-  const onChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+  const onChange = (event, { name, value }) => {
+    setValues({ ...values, [name]: value });
   };
 
   const onSubmit = (event) => {

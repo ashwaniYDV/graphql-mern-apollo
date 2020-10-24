@@ -14,7 +14,8 @@ function Register(props) {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    gender: 'male'
   });
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
@@ -36,6 +37,12 @@ function Register(props) {
   function registerUser() {
     addUser();
   }
+
+  const options = [
+    { key: 'm', text: 'Male', value: 'male' },
+    { key: 'f', text: 'Female', value: 'female' },
+    { key: 'o', text: 'Other', value: 'other' },
+  ]
 
   return (
     <div className="form-container">
@@ -59,6 +66,15 @@ function Register(props) {
           error={errors.email ? true : false}
           onChange={onChange}
         />
+        <Form.Select
+            label='Gender'
+            placeholder='Gender'
+            name="gender"
+            options={options}
+            value={values.gender}
+            error={errors.gender ? true : false}
+            onChange={onChange}
+          />
         <Form.Input
           label="Password"
           placeholder="Password.."
@@ -100,6 +116,7 @@ const REGISTER_USER = gql`
     $email: String!
     $password: String!
     $confirmPassword: String!
+    $gender: String!
   ) {
     register(
       registerInput: {
@@ -107,6 +124,7 @@ const REGISTER_USER = gql`
         email: $email
         password: $password
         confirmPassword: $confirmPassword
+        gender: $gender
       }
     ) {
       id
