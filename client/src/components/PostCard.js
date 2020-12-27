@@ -9,7 +9,7 @@ import DeleteButton from './DeleteButton';
 import MyPopup from '../util/MyPopup';
 
 function PostCard({
-  post: { body, createdAt, id, username, likeCount, commentCount, likes }
+  post: { title, body, createdAt, id, username, likeCount, commentCount, likes }
 }) {
   const { user } = useContext(AuthContext);
   // console.log(user);
@@ -29,8 +29,9 @@ function PostCard({
           size="mini"
           src="https://semantic-ui.com/images/avatar2/small/elyse.png"
         />
-        <Card.Header>{username}</Card.Header>
-        <Card.Meta as={Link} to={`/posts/${id}`}>
+        <Card.Header as={Link} to={`/posts/${id}`}>{title}</Card.Header>
+        <Card.Meta>
+          By {username} | 
           {moment(createdAt).fromNow(true)}
         </Card.Meta>
         <Card.Description>{body}</Card.Description>
