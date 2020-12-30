@@ -85,6 +85,9 @@ const CREATE_POST_MUTATION = gql`
         createdAt
       }
       commentCount
+      user {
+        profileImage
+      }
     }
   }
 `;

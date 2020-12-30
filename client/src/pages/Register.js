@@ -133,6 +133,7 @@ const REGISTER_USER = gql`
       createdAt
       token
       gender
+      profileImage
     }
   }
 `;

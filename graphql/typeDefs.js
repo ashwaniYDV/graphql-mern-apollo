@@ -11,6 +11,7 @@ module.exports = gql`
     comments: [Comment]!
     likeCount: Int!
     commentCount: Int!
+    user: PostUser!
   }
   type Comment {
     id: ID!
@@ -25,6 +26,11 @@ module.exports = gql`
     createdAt: String!
     username: String!
   }
+  type PostUser {
+    email: String!
+    username: String!
+    profileImage: String!
+  }
   type User {
     id: ID!
     email: String!
@@ -32,6 +38,7 @@ module.exports = gql`
     username: String!
     createdAt: String!
     gender: Int!
+    profileImage: String!
   }
   input RegisterInput {
     username: String!

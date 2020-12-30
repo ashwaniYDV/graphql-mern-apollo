@@ -9,17 +9,9 @@ import DeleteButton from './DeleteButton';
 import MyPopup from '../util/MyPopup';
 
 function PostCard({
-  post: { title, body, createdAt, id, username, likeCount, commentCount, likes }
+  post: { title, body, createdAt, id, username, likeCount, commentCount, likes, user: { profileImage } }
 }) {
   const { user } = useContext(AuthContext);
-  // console.log(user);
-  // if (user.gender == 0) {
-  //   user.img = "https://semantic-ui.com/images/avatar2/small/matthew.png";
-  // } else if (user.gender === 1) {
-  //   user.img = "https://semantic-ui.com/images/avatar2/small/kristy.png";
-  // } else {
-  //   user.img = "https://semantic-ui.com/images/avatar2/small/elyse.png";
-  // }
 
   return (
     <Card fluid>
@@ -27,7 +19,7 @@ function PostCard({
         <Image
           floated="right"
           size="mini"
-          src="https://semantic-ui.com/images/avatar2/small/elyse.png"
+          src={ profileImage }
         />
         <Card.Header as={Link} to={`/posts/${id}`}>{title}</Card.Header>
         <Card.Meta>

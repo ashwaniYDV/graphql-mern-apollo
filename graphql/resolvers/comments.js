@@ -30,7 +30,7 @@ module.exports = {
         
         post.comments.push(comment);
         await post.save();
-        post = await Post.findById(postId).populate('comments');
+        post = await Post.findById(postId).populate('comments').populate('user');
         return post;
       } else throw new UserInputError('Post not found');
     },
@@ -50,7 +50,7 @@ module.exports = {
 
           await Comment.findByIdAndRemove({ _id: commentId });
 
-          post = await Post.findById(postId).populate('comments');
+          post = await Post.findById(postId).populate('comments').populate('user');
           return post;
         } else {
           throw new AuthenticationError('Action not allowed');

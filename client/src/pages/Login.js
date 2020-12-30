@@ -82,6 +82,7 @@ const LOGIN_USER = gql`
       username
       createdAt
       token
+      profileImage
     }
   }
 `;

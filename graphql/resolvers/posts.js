@@ -8,7 +8,7 @@ module.exports = {
   Query: {
     async getPosts() {
       try {
-        const posts = await Post.find().sort({ createdAt: -1 }).populate('comments');
+        const posts = await Post.find().sort({ createdAt: -1 }).populate('comments').populate('user');
         return posts;
       } catch (err) {
         throw new Error(err);
@@ -16,7 +16,7 @@ module.exports = {
     },
     async getPost(_, { postId }) {
       try {
-        const post = await Post.findById(postId).populate('comments');
+        const post = await Post.findById(postId).populate('comments').populate('user');
         if (post) {
           return post;
         } else {
@@ -47,7 +47,10 @@ module.exports = {
         createdAt: new Date().toISOString()
       });
 
-      const post = await newPost.save();
+      let post = await newPost.save();
+
+      post = await Post.findById(post._id).populate('comments').populate('user');
+      console.log(post);
 
       context.pubsub.publish('NEW_POST', {
         newPost: post
@@ -61,7 +64,7 @@ module.exports = {
       try {
         const post = await Post.findById(postId);
         if (user.username === post.username) {
-          await Comment.remove({ postId });
+          await Comment.deleteMany({ postId });
           await post.delete();
           return 'Post deleted successfully';
         } else {

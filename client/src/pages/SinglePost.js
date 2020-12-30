@@ -62,7 +62,8 @@ function SinglePost(props) {
       comments,
       likes,
       likeCount,
-      commentCount
+      commentCount,
+      user : { profileImage }
     } = getPost;
 
     postMarkup = (
@@ -70,7 +71,7 @@ function SinglePost(props) {
         <Grid.Row>
           <Grid.Column width={2}>
             <Image
-              src="https://semantic-ui.com/images/avatar2/small/elyse.png"
+              src={ profileImage }
               size="small"
               float="right"
             />
@@ -191,6 +192,9 @@ const FETCH_POST_QUERY = gql`
         username
         createdAt
         body
+      }
+      user {
+        profileImage
       }
     }
   }

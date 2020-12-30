@@ -64,16 +64,24 @@ module.exports = {
       // hash password and create an auth token
       password = await bcrypt.hash(password, 12);
 
-      const newUser = new User({
+      let userData = {
         email,
         username,
         password,
         createdAt: new Date().toISOString(),
         gender
-      });
+      };
 
+      if(gender == 0) {
+        userData.profileImage = "https://semantic-ui.com/images/avatar2/small/matthew.png";
+      } else if(gender == 1) {
+        userData.profileImage = "https://semantic-ui.com/images/avatar2/small/kristy.png";
+      } else if(gender == 2) {
+        userData.profileImage = "https://semantic-ui.com/images/avatar2/small/elyse.png";
+      }
+
+      const newUser = new User(userData);
       const res = await newUser.save();
-
       const token = generateToken(res);
 
       return {
