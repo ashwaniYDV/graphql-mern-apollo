@@ -50,7 +50,6 @@ module.exports = {
       let post = await newPost.save();
 
       post = await Post.findById(post._id).populate('comments').populate('user');
-      console.log(post);
 
       context.pubsub.publish('NEW_POST', {
         newPost: post
