@@ -16,7 +16,7 @@ module.exports = {
         });
       }
 
-      const post = await Post.findById(postId);
+      let post = await Post.findById(postId);
 
       if (post) {
         const comment = new Comment({
@@ -29,6 +29,7 @@ module.exports = {
         
         post.comments.push(comment);
         await post.save();
+        post = await Post.findById(postId).populate('comments');
         return post;
       } else throw new UserInputError('Post not found');
     },
@@ -40,13 +41,15 @@ module.exports = {
         throw new UserInputError('Comment not found');
       }
 
-      const post = await Post.findById(postId);
+      let post = await Post.findById(postId);
       if (post) {
         if (comment.username === username) {
           post.comments.pull(commentId);
           await post.save();
 
           await Comment.findByIdAndRemove({ _id: commentId });
+
+          post = await Post.findById(postId).populate('comments');
           return post;
         } else {
           throw new AuthenticationError('Action not allowed');
