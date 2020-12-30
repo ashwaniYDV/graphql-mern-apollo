@@ -2,6 +2,7 @@ const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const checkAuth = require('../../util/check-auth');
 const Post = require('../../models/Post');
+const Comment = require('../../models/Comment');
 
 module.exports = {
   Mutation: {
@@ -18,11 +19,15 @@ module.exports = {
       const post = await Post.findById(postId);
 
       if (post) {
-        post.comments.unshift({
+        const comment = new Comment({
           body,
           username,
+          postId,
           createdAt: new Date().toISOString()
         });
+        await comment.save();
+        
+        post.comments.push(comment);
         await post.save();
         return post;
       } else throw new UserInputError('Post not found');
@@ -30,14 +35,18 @@ module.exports = {
     async deleteComment(_, { postId, commentId }, context) {
       const { username } = checkAuth(context);
 
+      const comment = await Comment.findOne({ _id: commentId });
+      if(!comment) {
+        throw new UserInputError('Comment not found');
+      }
+
       const post = await Post.findById(postId);
-
       if (post) {
-        const commentIndex = post.comments.findIndex((c) => c.id === commentId);
-
-        if (post.comments[commentIndex].username === username) {
-          post.comments.splice(commentIndex, 1);
+        if (comment.username === username) {
+          post.comments.pull(commentId);
           await post.save();
+
+          await Comment.findByIdAndRemove({ _id: commentId });
           return post;
         } else {
           throw new AuthenticationError('Action not allowed');
@@ -46,5 +55,5 @@ module.exports = {
         throw new UserInputError('Post not found');
       }
     }
-  }
+  },
 };

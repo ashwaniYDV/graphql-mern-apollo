@@ -5,13 +5,10 @@ const postSchema = new Schema({
   body: String,
   username: String,
   createdAt: String,
-  comments: [
-    {
-      body: String,
-      username: String,
-      createdAt: String
-    }
-  ],
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'comment'
+  }],
   likes: [
     {
       username: String,
@@ -20,8 +17,8 @@ const postSchema = new Schema({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'user'
   }
 });
 
-module.exports = model('Post', postSchema);
+module.exports = model('post', postSchema);

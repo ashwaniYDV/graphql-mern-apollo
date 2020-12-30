@@ -1,13 +1,14 @@
 const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const Post = require('../../models/Post');
+const Comment = require('../../models/Comment');
 const checkAuth = require('../../util/check-auth');
 
 module.exports = {
   Query: {
     async getPosts() {
       try {
-        const posts = await Post.find().sort({ createdAt: -1 });
+        const posts = await Post.find().sort({ createdAt: -1 }).populate('comments');
         return posts;
       } catch (err) {
         throw new Error(err);
@@ -15,7 +16,7 @@ module.exports = {
     },
     async getPost(_, { postId }) {
       try {
-        const post = await Post.findById(postId);
+        const post = await Post.findById(postId).populate('comments');
         if (post) {
           return post;
         } else {
@@ -60,6 +61,7 @@ module.exports = {
       try {
         const post = await Post.findById(postId);
         if (user.username === post.username) {
+          await Comment.remove({ postId });
           await post.delete();
           return 'Post deleted successfully';
         } else {
