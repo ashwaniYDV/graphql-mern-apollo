@@ -15,6 +15,7 @@ export const FETCH_POSTS_QUERY = gql`
       commentCount
       comments {
         id
+        parId
         username
         createdAt
         body

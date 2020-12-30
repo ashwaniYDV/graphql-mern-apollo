@@ -40,7 +40,8 @@ function SinglePost(props) {
     },
     variables: {
       postId,
-      body: comment
+      body: comment,
+      parId: "0"
     }
   });
 
@@ -77,8 +78,11 @@ function SinglePost(props) {
           <Grid.Column width={10}>
             <Card fluid>
               <Card.Content>
-                <Card.Header>{username} - {title}</Card.Header>
-                <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
+                <Card.Header>{title}</Card.Header>
+                <Card.Meta>
+                  By {username} | 
+                  {moment(createdAt).fromNow(true)}
+                </Card.Meta>
                 <Card.Description>{body}</Card.Description>
               </Card.Content>
               <hr />
@@ -133,12 +137,14 @@ function SinglePost(props) {
             {comments.map((comment) => (
               <Card fluid key={comment.id}>
                 <Card.Content>
+                <Card.Header>{comment.body}</Card.Header>
                   {user && user.username === comment.username && (
                     <DeleteButton postId={id} commentId={comment.id} />
                   )}
-                  <Card.Header>{comment.username}</Card.Header>
-                  <Card.Meta>{moment(comment.createdAt).fromNow()}</Card.Meta>
-                  <Card.Description>{comment.body}</Card.Description>
+                  <Card.Meta>
+                    {username} | 
+                    {moment(comment.createdAt).fromNow(true)}
+                  </Card.Meta>
                 </Card.Content>
               </Card>
             ))}
@@ -151,11 +157,12 @@ function SinglePost(props) {
 }
 
 const SUBMIT_COMMENT_MUTATION = gql`
-  mutation($postId: String!, $body: String!) {
-    createComment(postId: $postId, body: $body) {
+  mutation($postId: String!, $body: String!, $parId: String!) {
+    createComment(postId: $postId, body: $body, parId: $parId) {
       id
       comments {
         id
+        parId
         body
         createdAt
         username
@@ -180,6 +187,7 @@ const FETCH_POST_QUERY = gql`
       commentCount
       comments {
         id
+        parId
         username
         createdAt
         body

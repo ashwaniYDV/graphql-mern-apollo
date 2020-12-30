@@ -4,7 +4,11 @@ const commentSchema = new Schema({
   body: String,
   username: String,
   createdAt: String,
-  postId: String
+  postId: String,
+  parId: {
+    type: String,
+    default: "0"
+  }
 });
 
 module.exports = model('comment', commentSchema);
